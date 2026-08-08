@@ -7,55 +7,55 @@ const daysTogether = Math.floor(
 )
 const albumPhotos = [
   {
-    src: `${import.meta.env.BASE_URL}photos/album-1.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-1.jpg`,
     date: '2021 · 11 · 24',
     title: '故事开始的地方',
     note: '从这一天开始，平凡的日子有了特别的意义。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-2.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-2.jpg`,
     date: '2022 · OUR MEMORY',
     title: '第一次一起旅行',
     note: '因为身边是你，所以沿途的一切都变得值得纪念。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-3.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-3.jpg`,
     date: '2023 · EVERYDAY',
     title: '平凡的小日子',
     note: '没有特别安排的日子，也因为有你而变得温柔。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-4.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-4.jpg`,
     date: '2024 · TOGETHER',
     title: '我们还在继续',
     note: '这一页不是结尾，下一段故事依然是我们。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-5.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-5.jpg`,
     date: 'OUR MEMORY · 05',
     title: '被珍藏的瞬间',
     note: '镜头留住的不只是画面，还有那一天的心情。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-6.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-6.jpg`,
     date: 'OUR MEMORY · 06',
     title: '和你一起看风景',
     note: '去过哪里并不重要，重要的是一路都有你陪着。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-7.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-7.jpg`,
     date: 'OUR MEMORY · 07',
     title: '值得反复想起',
     note: '那些笑得很开心的时刻，后来都成了闪闪发亮的回忆。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-8.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-8.jpg`,
     date: 'OUR MEMORY · 08',
     title: '日常里的浪漫',
     note: '真正喜欢的生活，是每一个普通日子里都有彼此。',
   },
   {
-    src: `${import.meta.env.BASE_URL}photos/album-9.png`,
+    src: `${import.meta.env.BASE_URL}photos-web/album-9.jpg`,
     date: 'OUR MEMORY · 09',
     title: '故事未完待续',
     note: '相册会继续翻页，我们也会一起创造更多故事。',
@@ -87,16 +87,18 @@ function App() {
           alt=""
         /><figure className="swing-frame frame-one">
             <img
-              src={`${import.meta.env.BASE_URL}photos/frame-1.png`}
+              src={`${import.meta.env.BASE_URL}photos-web/frame-1.jpg`}
               alt=""
+              decoding="async"
             />
             <figcaption>OUR MEMORY</figcaption>
           </figure>
 
           <figure className="swing-frame frame-two">
             <img
-              src={`${import.meta.env.BASE_URL}photos/frame-2.png`}
+              src={`${import.meta.env.BASE_URL}photos-web/frame-2.jpg`}
               alt=""
+              decoding="async"
             />
             <figcaption>11 · 24 · 2021</figcaption>
           </figure>
@@ -211,6 +213,8 @@ function App() {
                 <img
                   src={activePhoto.src}
                   alt={`${activePhoto.title}的回忆照片`}
+                  loading="lazy"
+                  decoding="async"
                 />
                 <figcaption>{activePhoto.date}</figcaption>
               </figure>
