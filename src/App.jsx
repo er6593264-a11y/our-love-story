@@ -247,7 +247,10 @@ function App() {
           {showLetter ? '收起这封信' : '打开一封小情书'}
         </button>
         {showLetter && <p className="letter">很幸运，在这么大的世界里遇见了你。希望未来还有许许多多的日子，可以和你一起慢慢记录。</p>}
-        <a className="section-jump" href="#album">翻开我们的相册 ↓</a>
+        <a className="section-jump album-entry" href="#album">
+          <span>翻开我们的回忆相册</span>
+          <i aria-hidden="true">↓</i>
+        </a>
       </section>
 
       <section className="memories memory-redesign" id="album">

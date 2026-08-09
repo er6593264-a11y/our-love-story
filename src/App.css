@@ -1825,6 +1825,59 @@ h1 span {
   opacity: 0.72;
 }
 
+.hero .album-entry {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 54px;
+  margin-top: 24px;
+  padding: 12px 15px 12px 24px;
+  color: #fffaf6;
+  font-family: "Songti SC", "STSong", Georgia, serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #925564, #704653);
+  border: 1px solid rgba(255, 245, 238, 0.55);
+  border-radius: 999px;
+  box-shadow:
+    0 13px 30px rgba(92, 49, 65, 0.27),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transform: none;
+  text-shadow: 0 1px 3px rgba(54, 25, 36, 0.32);
+  opacity: 1;
+}
+
+.hero .album-entry i {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: #714452;
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  background: #f7ddd8;
+  border-radius: 50%;
+  transition: transform 180ms ease;
+}
+
+.hero .album-entry:hover {
+  color: #fff;
+  box-shadow:
+    0 17px 36px rgba(92, 49, 65, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  transform: translateY(-3px);
+  opacity: 1;
+}
+
+.hero .album-entry:hover i {
+  transform: translateY(3px);
+}
+
 .music-button {
   position: fixed;
   z-index: 100;
@@ -2312,6 +2365,16 @@ h1 span {
   .music-button { padding: 6px; }
   .hero { min-height: 100svh; }
   .section-jump { bottom: 16px; }
+  .hero .album-entry {
+    bottom: auto;
+    width: min(88vw, 310px);
+    min-height: 58px;
+    margin-top: 22px;
+    padding: 12px 13px 12px 20px;
+    justify-content: space-between;
+    font-size: 1.02rem;
+    letter-spacing: 0.06em;
+  }
   .memory-redesign, .cinema { padding: 86px 20px 78px; }
   .memory-masthead, .cinema-heading { grid-template-columns: 1fr; gap: 25px; margin-bottom: 45px; }
   .memory-masthead h2, .cinema-heading h2 { font-size: 2.65rem; }
