@@ -2241,8 +2241,39 @@ h1 span {
   box-shadow: 0 42px 100px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(230, 208, 174, 0.18);
 }
 
-.cinema-screen video { display: none; width: 100%; height: 100%; object-fit: contain; background: #000; }
-.cinema-screen video.is-ready { display: block; }
+.cinema-screen video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.video-lazy-poster {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #090c0b;
+}
+.video-lazy-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.video-lazy-poster::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: linear-gradient(180deg, transparent 62%, rgba(0, 0, 0, .42));
+}
+.video-lazy-poster span {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  width: 64px;
+  aspect-ratio: 1;
+  place-items: center;
+  padding-left: 4px;
+  color: #17231f;
+  background: rgba(238, 218, 193, .9);
+  border-radius: 50%;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .28);
+}
 .video-missing {
   position: absolute;
   inset: 0;
@@ -2398,6 +2429,37 @@ h1 span {
   .video-now-playing strong { font-size: .96rem; }
   .reaction-zone { margin-top: 55px; padding: 22px; gap: 18px; }
   .reaction-zone strong { font-size: 1.02rem; }
+
+  /* Keep the mobile title clear of the hanging frames and safe-area controls. */
+  .hero {
+    min-height: 100svh;
+    padding: 170px 18px 230px;
+    justify-content: flex-start;
+  }
+  .hero .eyebrow { margin-bottom: 13px; }
+  .hero h1 {
+    max-width: 100%;
+    margin-bottom: 15px;
+    font-size: clamp(2.35rem, 11.2vw, 3.15rem);
+    line-height: 1.12;
+  }
+  .hero .start-date {
+    margin-bottom: 18px;
+    font-size: .9rem;
+  }
+  .hero .counter {
+    margin-bottom: 18px;
+    padding: 14px 28px;
+  }
+  .hero .counter strong { font-size: 2.45rem; }
+  .hero .album-entry { margin-top: 15px; }
+  .swing-frame {
+    width: 72px;
+    padding: 5px 5px 19px;
+  }
+  .swing-frame img { height: 59px; }
+  .frame-one { top: 77px; left: 7%; }
+  .frame-two { top: 84px; right: 7%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

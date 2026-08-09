@@ -56,13 +56,15 @@ function App() {
   const [favorite, setFavorite] = useState(false)
   const [reactionCount, setReactionCount] = useState(0)
   const [heartBurst, setHeartBurst] = useState(0)
-  const [videoAvailable, setVideoAvailable] = useState(false)
+  const [videoError, setVideoError] = useState(false)
+  const [videoSectionReady, setVideoSectionReady] = useState(false)
   const [currentVideo, setCurrentVideo] = useState(0)
   const [autoAdvance, setAutoAdvance] = useState(true)
   const [musicReady, setMusicReady] = useState(false)
   const [musicPlaying, setMusicPlaying] = useState(false)
   const audioRef = useRef(null)
   const videoRef = useRef(null)
+  const cinemaRef = useRef(null)
   const thumbnailStripRef = useRef(null)
   const audioContextRef = useRef(null)
   const melodyTimerRef = useRef(null)
@@ -83,6 +85,29 @@ function App() {
     window.clearInterval(melodyTimerRef.current)
     audioContextRef.current?.close()
   }, [])
+
+  useEffect(() => {
+    const cinema = cinemaRef.current
+    if (!cinema || !('IntersectionObserver' in window)) {
+      setVideoSectionReady(true)
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      setVideoSectionReady(true)
+      observer.disconnect()
+    }, { rootMargin: '240px 0px' })
+
+    observer.observe(cinema)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!videoSectionReady || !playOnLoadRef.current || !videoRef.current) return
+    playOnLoadRef.current = false
+    videoRef.current.play().catch(() => {})
+  }, [currentVideo, videoSectionReady])
 
   const stopBuiltInMusic = () => {
     window.clearInterval(melodyTimerRef.current)
@@ -156,8 +181,9 @@ function App() {
   }
 
   const switchVideo = (nextIndex, keepPlaying = false) => {
-    playOnLoadRef.current = keepPlaying || !videoRef.current?.paused
-    setVideoAvailable(false)
+    const wasPlaying = Boolean(videoRef.current && !videoRef.current.paused)
+    playOnLoadRef.current = keepPlaying || wasPlaying
+    setVideoError(false)
     setCurrentVideo(nextIndex)
   }
 
@@ -175,13 +201,6 @@ function App() {
       ? 0
       : currentVideo + 1
     switchVideo(nextIndex, keepPlaying)
-  }
-
-  const handleVideoReady = () => {
-    setVideoAvailable(true)
-    if (!playOnLoadRef.current) return
-    playOnLoadRef.current = false
-    videoRef.current?.play().catch(() => {})
   }
 
   const handleVideoEnded = () => {
@@ -207,6 +226,7 @@ function App() {
         type="button"
         onClick={toggleMusic}
         aria-pressed={musicPlaying}
+        aria-label={musicPlaying ? '暂停音乐' : '播放音乐'}
       >
         <span className="music-disc" aria-hidden="true">♪</span>
         <span>{musicPlaying ? '暂停音乐' : '播放音乐'}</span>
@@ -308,7 +328,7 @@ function App() {
         <a className="section-jump dark-jump" href="#cinema">去看我们的影片 ↓</a>
       </section>
 
-      <section className="cinema" id="cinema">
+      <section className="cinema" id="cinema" ref={cinemaRef}>
         <div className="cinema-glow" aria-hidden="true" />
         <header className="cinema-heading">
           <p className="section-label">CHAPTER THREE · OUR CINEMA</p>
@@ -318,23 +338,34 @@ function App() {
 
         <div className="cinema-stage">
           <div className="cinema-screen">
-            {activeVideo && (
+            {videoSectionReady && activeVideo && !videoError && (
               <video
                 ref={videoRef}
                 key={activeVideo.file}
-                className={videoAvailable ? 'is-ready' : ''}
                 controls
                 playsInline
-                preload="metadata"
-                onLoadedMetadata={handleVideoReady}
-                onError={() => setVideoAvailable(false)}
+                preload="none"
+                poster={assetUrl(`media/${activeVideo.poster}`)}
+                aria-label={activeVideo.title}
+                onError={() => setVideoError(true)}
                 onPlay={handleVideoPlay}
                 onEnded={handleVideoEnded}
               >
                 <source src={assetUrl(`media/${activeVideo.file}`)} type="video/mp4" />
               </video>
             )}
-            {(!activeVideo || !videoAvailable) && (
+            {activeVideo && !videoSectionReady && (
+              <div className="video-lazy-poster">
+                <img
+                  src={assetUrl(`media/${activeVideo.poster}`)}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span aria-hidden="true">▶</span>
+              </div>
+            )}
+            {(!activeVideo || videoError) && (
               <div className="video-missing">
                 <span className="video-reel" aria-hidden="true">▶</span>
                 <p>OUR VIDEO</p>

@@ -46,6 +46,9 @@ const imagePaths = [
   'photos-web/frame-1.jpg',
   'photos-web/frame-2.jpg',
   'photos/couple-border-collie-cutout.png',
+  ...Array.from({ length: 4 }, (_, index) =>
+    `media/poster-${index + 1}.jpg`,
+  ),
 ]
 
 for (const imagePath of imagePaths) {
@@ -57,8 +60,8 @@ for (const imagePath of imagePaths) {
 }
 
 // Embed the chosen song so the offline edition remains a single shareable file.
-// The video stays separate because it can be much larger; the photo trailer is
-// used automatically when no video is available.
+// Videos are embedded below as well, keeping the offline edition shareable as
+// one self-contained file.
 try {
   const song = await readFile(path.join(distDir, 'media/our-song.mp3'))
   const songDataUrl = `data:audio/mpeg;base64,${song.toString('base64')}`
