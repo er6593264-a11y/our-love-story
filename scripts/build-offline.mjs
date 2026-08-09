@@ -21,6 +21,20 @@ if (!stylesheetMatch || !scriptMatch) {
 const toDistPath = (assetUrl) =>
   path.join(distDir, assetUrl.replace('/our-love-story/', ''))
 
+const escapeRegex = (value) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const replaceBundledUrl = (source, assetPath, replacement) => {
+  const templateUrl = new RegExp(
+    `\`\\$\\{[^}]+\\}${escapeRegex(assetPath)}\``,
+    'g',
+  )
+
+  return source
+    .replaceAll(`/our-love-story/${assetPath}`, replacement)
+    .replace(templateUrl, () => JSON.stringify(replacement))
+}
+
 const css = await readFile(toDistPath(stylesheetMatch[1]), 'utf8')
 let javascript = await readFile(toDistPath(scriptMatch[1]), 'utf8')
 
@@ -37,14 +51,33 @@ for (const imagePath of imagePaths) {
   const image = await readFile(path.join(distDir, imagePath))
   const mimeType = imagePath.endsWith('.png') ? 'image/png' : 'image/jpeg'
   const dataUrl = `data:${mimeType};base64,${image.toString('base64')}`
-  javascript = javascript.replaceAll(`/our-love-story/${imagePath}`, dataUrl)
+  javascript = replaceBundledUrl(javascript, imagePath, dataUrl)
 }
 
-// The offline edition falls back to the built-in melody and photo trailer.
-// Real MP3/MP4 files can stay separate because they are often too large to email.
-javascript = javascript
-  .replaceAll('/our-love-story/media/our-song.mp3', 'data:audio/mpeg;base64,')
-  .replaceAll('/our-love-story/media/our-video.mp4', 'data:video/mp4;base64,')
+// Embed the chosen song so the offline edition remains a single shareable file.
+// The video stays separate because it can be much larger; the photo trailer is
+// used automatically when no video is available.
+try {
+  const song = await readFile(path.join(distDir, 'media/our-song.mp3'))
+  const songDataUrl = `data:audio/mpeg;base64,${song.toString('base64')}`
+  javascript = replaceBundledUrl(
+    javascript,
+    'media/our-song.mp3',
+    songDataUrl,
+  )
+} catch {
+  javascript = replaceBundledUrl(
+    javascript,
+    'media/our-song.mp3',
+    'data:audio/mpeg;base64,',
+  )
+}
+
+javascript = replaceBundledUrl(
+  javascript,
+  'media/our-video.mp4',
+  'data:video/mp4;base64,',
+)
 
 html = html
   .replace(stylesheetMatch[0], () => `<style>${css}</style>`)

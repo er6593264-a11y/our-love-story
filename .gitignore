@@ -12,6 +12,7 @@ dist
 dist-ssr
 offline
 *.local
+public/media/our-song.mp3
 
 # Editor directories and files
 .vscode/*
