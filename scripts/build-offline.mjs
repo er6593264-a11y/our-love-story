@@ -40,6 +40,12 @@ for (const imagePath of imagePaths) {
   javascript = javascript.replaceAll(`/our-love-story/${imagePath}`, dataUrl)
 }
 
+// The offline edition falls back to the built-in melody and photo trailer.
+// Real MP3/MP4 files can stay separate because they are often too large to email.
+javascript = javascript
+  .replaceAll('/our-love-story/media/our-song.mp3', 'data:audio/mpeg;base64,')
+  .replaceAll('/our-love-story/media/our-video.mp4', 'data:video/mp4;base64,')
+
 html = html
   .replace(stylesheetMatch[0], () => `<style>${css}</style>`)
   .replace(
