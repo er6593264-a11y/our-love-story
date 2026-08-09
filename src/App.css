@@ -1980,10 +1980,9 @@ h1 span {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.7fr);
-  align-items: center;
-  gap: clamp(42px, 7vw, 105px);
-  max-width: 1180px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  max-width: 900px;
   margin: 0 auto;
   animation: editorial-arrive 520ms ease both;
 }
@@ -2047,9 +2046,11 @@ h1 span {
 
 .memory-copy-card {
   position: relative;
-  grid-column: 2;
-  grid-row: 1;
-  padding: 54px 0 40px;
+  grid-column: 1;
+  grid-row: 3;
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 54px 6px 40px;
   text-align: left;
 }
 
@@ -2090,7 +2091,7 @@ h1 span {
 }
 
 .memory-note {
-  max-width: 430px;
+  max-width: 680px;
   margin: 0;
   color: #71665e;
   font-family: "Songti SC", "STSong", serif;
@@ -2144,7 +2145,7 @@ h1 span {
   grid-column: 1 / -1;
   grid-row: 2;
   max-width: 860px;
-  margin: 72px auto 38px;
+  margin: 24px auto 0;
 }
 
 .memory-footer-controls > button {

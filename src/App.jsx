@@ -88,7 +88,6 @@ function App() {
 
     if (!focusPhotoAfterChangeRef.current) return
     focusPhotoAfterChangeRef.current = false
-    if (!window.matchMedia('(max-width: 760px)').matches) return
     window.requestAnimationFrame(() => {
       memoryImageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
