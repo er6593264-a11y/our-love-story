@@ -38,7 +38,7 @@ const memoryNotes = [
   '每一张照片都在提醒我们：故事还在慢慢发生。',
 ]
 
-const albumPhotos = Array.from({ length: 50 }, (_, index) => {
+const albumPhotos = Array.from({ length: 70 }, (_, index) => {
   const featuredStory = featuredAlbumStories[index]
   const number = index + 1
 
@@ -325,7 +325,10 @@ function App() {
           </div>
           <button type="button" onClick={nextPhoto} aria-label="下一张照片">→</button>
         </div>
-        <a className="section-jump dark-jump" href="#cinema">去看我们的影片 ↓</a>
+        <a className="section-jump dark-jump" href="#cinema">
+          <span>一起去看我们的影片</span>
+          <i aria-hidden="true">↓</i>
+        </a>
       </section>
 
       <section className="cinema" id="cinema" ref={cinemaRef}>

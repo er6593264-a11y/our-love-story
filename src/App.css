@@ -2179,12 +2179,46 @@ h1 span {
 
 .dark-jump {
   position: static;
-  display: table;
-  margin: 0 auto;
+  display: flex;
+  width: fit-content;
+  min-height: 54px;
+  margin: 4px auto 0;
+  padding: 10px 11px 10px 21px;
+  align-items: center;
+  gap: 16px;
+  color: #fffaf3;
+  font-family: "Songti SC", "STSong", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  background: linear-gradient(135deg, #8e5b54, #765049);
+  border: 1px solid rgba(110, 73, 65, .24);
+  border-radius: 999px;
+  box-shadow: 0 13px 30px rgba(92, 66, 54, .2);
   transform: none;
 }
 
-.dark-jump:hover { transform: translateY(3px); }
+.dark-jump i {
+  display: grid;
+  width: 34px;
+  aspect-ratio: 1;
+  place-items: center;
+  color: #785148;
+  font-family: system-ui, sans-serif;
+  font-style: normal;
+  background: #f4ddd1;
+  border-radius: 50%;
+  transition: transform 180ms ease;
+}
+
+.dark-jump:hover {
+  color: #fff;
+  box-shadow: 0 17px 36px rgba(92, 66, 54, .28);
+  transform: translateY(-3px);
+  opacity: 1;
+}
+
+.dark-jump:hover i { transform: translateY(3px); }
 
 .cinema {
   position: relative;

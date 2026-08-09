@@ -40,7 +40,7 @@ let javascript = await readFile(toDistPath(scriptMatch[1]), 'utf8')
 const offlineAssets = {}
 
 const imagePaths = [
-  ...Array.from({ length: 50 }, (_, index) =>
+  ...Array.from({ length: 70 }, (_, index) =>
     `photos-web/album-${index + 1}.jpg`,
   ),
   'photos-web/frame-1.jpg',
