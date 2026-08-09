@@ -64,20 +64,34 @@ function App() {
   const audioRef = useRef(null)
   const videoRef = useRef(null)
   const cinemaRef = useRef(null)
+  const memoryImageRef = useRef(null)
   const thumbnailStripRef = useRef(null)
   const audioContextRef = useRef(null)
   const melodyTimerRef = useRef(null)
   const playOnLoadRef = useRef(false)
+  const focusPhotoAfterChangeRef = useRef(false)
 
-  const previousPhoto = () => setCurrentPhoto((value) =>
+  const changePhoto = (nextPhoto) => {
+    focusPhotoAfterChangeRef.current = true
+    setCurrentPhoto(nextPhoto)
+  }
+
+  const previousPhoto = () => changePhoto((value) =>
     value === 0 ? albumPhotos.length - 1 : value - 1)
-  const nextPhoto = () => setCurrentPhoto((value) =>
+  const nextPhoto = () => changePhoto((value) =>
     value === albumPhotos.length - 1 ? 0 : value + 1)
 
   useEffect(() => {
     thumbnailStripRef.current
       ?.querySelector('.is-current')
       ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+
+    if (!focusPhotoAfterChangeRef.current) return
+    focusPhotoAfterChangeRef.current = false
+    if (!window.matchMedia('(max-width: 760px)').matches) return
+    window.requestAnimationFrame(() => {
+      memoryImageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
   }, [currentPhoto])
 
   useEffect(() => () => {
@@ -162,7 +176,7 @@ function App() {
   }
 
   const randomMemory = () => {
-    setCurrentPhoto((current) => {
+    changePhoto((current) => {
       const offset = 1 + Math.floor(Math.random() * (albumPhotos.length - 1))
       return (current + offset) % albumPhotos.length
     })
@@ -210,7 +224,7 @@ function App() {
   const openAlbum = (event) => {
     if (!window.matchMedia('(max-width: 760px)').matches) return
     event.preventDefault()
-    document.getElementById('album-photo')?.scrollIntoView({
+    memoryImageRef.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     })
@@ -289,8 +303,8 @@ function App() {
           <p>That's everything begin</p>
         </header>
 
-        <div className="memory-editorial" id="album-photo" key={currentPhoto} aria-live="polite">
-          <div className="memory-image-deck">
+        <div className="memory-editorial" key={currentPhoto} aria-live="polite">
+          <div className="memory-image-deck" id="album-photo" ref={memoryImageRef}>
             <span className="paper-tape tape-one" aria-hidden="true" />
             <span className="paper-tape tape-two" aria-hidden="true" />
             <figure className="memory-main-photo">
@@ -298,6 +312,24 @@ function App() {
               <figcaption>{activePhoto.date}</figcaption>
             </figure>
             <span className="scribble-heart" aria-hidden="true">♡</span>
+          </div>
+
+          <div className="memory-footer-controls">
+            <button type="button" onClick={previousPhoto} aria-label="上一张照片">←</button>
+            <div className="memory-thumbnails" ref={thumbnailStripRef}>
+              {albumPhotos.map((photo, index) => (
+                <button
+                  type="button"
+                  className={index === currentPhoto ? 'is-current' : ''}
+                  onClick={() => changePhoto(index)}
+                  aria-label={`查看第 ${index + 1} 张照片`}
+                  key={photo.src}
+                >
+                  <img src={photo.src} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+            <button type="button" onClick={nextPhoto} aria-label="下一张照片">→</button>
           </div>
 
           <article className="memory-copy-card">
@@ -313,24 +345,6 @@ function App() {
               <button type="button" onClick={randomMemory}>随便翻一页 ↗</button>
             </div>
           </article>
-        </div>
-
-        <div className="memory-footer-controls">
-          <button type="button" onClick={previousPhoto} aria-label="上一张照片">←</button>
-          <div className="memory-thumbnails" ref={thumbnailStripRef}>
-            {albumPhotos.map((photo, index) => (
-              <button
-                type="button"
-                className={index === currentPhoto ? 'is-current' : ''}
-                onClick={() => setCurrentPhoto(index)}
-                aria-label={`查看第 ${index + 1} 张照片`}
-                key={photo.src}
-              >
-                <img src={photo.src} alt="" loading="lazy" />
-              </button>
-            ))}
-          </div>
-          <button type="button" onClick={nextPhoto} aria-label="下一张照片">→</button>
         </div>
         <a className="section-jump dark-jump" href="#cinema">
           <span>一起去看我们的影片</span>

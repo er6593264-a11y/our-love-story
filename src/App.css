@@ -1995,6 +1995,8 @@ h1 span {
 
 .memory-image-deck {
   position: relative;
+  grid-column: 1;
+  grid-row: 1;
   padding: clamp(12px, 2vw, 25px);
   background: #fffdf8;
   box-shadow: 0 32px 80px rgba(68, 55, 42, 0.17);
@@ -2045,6 +2047,8 @@ h1 span {
 
 .memory-copy-card {
   position: relative;
+  grid-column: 2;
+  grid-row: 1;
   padding: 54px 0 40px;
   text-align: left;
 }
@@ -2133,9 +2137,12 @@ h1 span {
   position: relative;
   z-index: 3;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 15px;
+  grid-column: 1 / -1;
+  grid-row: 2;
   max-width: 860px;
   margin: 72px auto 38px;
 }
@@ -2445,13 +2452,26 @@ h1 span {
   .memory-masthead h2, .cinema-heading h2 { font-size: 2.65rem; }
   .memory-editorial {
     grid-template-columns: 1fr;
-    gap: 26px;
+    gap: 0;
+  }
+  .memory-image-deck {
+    grid-column: 1;
+    grid-row: 1;
     scroll-margin-top: max(14px, env(safe-area-inset-top));
   }
   .memory-main-photo img { height: min(112vw, 520px); }
-  .memory-copy-card { padding: 38px 6px 8px; }
+  .memory-copy-card {
+    grid-column: 1;
+    grid-row: 3;
+    padding: 38px 6px 8px;
+  }
   .memory-index { font-size: 6rem; }
-  .memory-footer-controls { margin-top: 52px; gap: 7px; }
+  .memory-footer-controls {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 22px 0 0;
+    gap: 7px;
+  }
   .memory-thumbnails { max-width: calc(100vw - 135px); gap: 8px; }
   .memory-thumbnails button { flex-basis: 44px; width: 44px; height: 52px; }
   .dark-jump { margin-top: 36px; }
