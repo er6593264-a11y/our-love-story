@@ -2443,7 +2443,11 @@ h1 span {
   .memory-redesign, .cinema { padding: 86px 20px 78px; }
   .memory-masthead, .cinema-heading { grid-template-columns: 1fr; gap: 25px; margin-bottom: 45px; }
   .memory-masthead h2, .cinema-heading h2 { font-size: 2.65rem; }
-  .memory-editorial { grid-template-columns: 1fr; gap: 26px; }
+  .memory-editorial {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    scroll-margin-top: max(14px, env(safe-area-inset-top));
+  }
   .memory-main-photo img { height: min(112vw, 520px); }
   .memory-copy-card { padding: 38px 6px 8px; }
   .memory-index { font-size: 6rem; }

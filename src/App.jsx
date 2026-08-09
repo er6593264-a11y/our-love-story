@@ -207,6 +207,15 @@ function App() {
     if (autoAdvance && videoPlaylist.length > 1) nextVideo(true)
   }
 
+  const openAlbum = (event) => {
+    if (!window.matchMedia('(max-width: 760px)').matches) return
+    event.preventDefault()
+    document.getElementById('album-photo')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+
   const activePhoto = albumPhotos[currentPhoto]
   const activeVideo = videoPlaylist[currentVideo]
 
@@ -265,7 +274,7 @@ function App() {
           {showLetter ? '收起这封信' : '打开一封小情书'}
         </button>
         {showLetter && <p className="letter">很幸运，在这么大的世界里遇见了你。希望未来还有许许多多的日子，可以和你一起慢慢记录。</p>}
-        <a className="section-jump album-entry" href="#album">
+        <a className="section-jump album-entry" href="#album" onClick={openAlbum}>
           <span>翻开我们的回忆相册</span>
           <i aria-hidden="true">↓</i>
         </a>
@@ -280,7 +289,7 @@ function App() {
           <p>That's everything begin</p>
         </header>
 
-        <div className="memory-editorial" key={currentPhoto} aria-live="polite">
+        <div className="memory-editorial" id="album-photo" key={currentPhoto} aria-live="polite">
           <div className="memory-image-deck">
             <span className="paper-tape tape-one" aria-hidden="true" />
             <span className="paper-tape tape-two" aria-hidden="true" />
