@@ -60,7 +60,6 @@ function App() {
   const [videoSectionReady, setVideoSectionReady] = useState(false)
   const [currentVideo, setCurrentVideo] = useState(0)
   const [autoAdvance, setAutoAdvance] = useState(true)
-  const [musicReady, setMusicReady] = useState(false)
   const [musicPlaying, setMusicPlaying] = useState(false)
   const audioRef = useRef(null)
   const videoRef = useRef(null)
@@ -148,8 +147,9 @@ function App() {
       setMusicPlaying(false)
       return
     }
-    if (musicReady && audioRef.current) {
+    if (audioRef.current) {
       try {
+        if (audioRef.current.readyState === 0) audioRef.current.load()
         await audioRef.current.play()
         setMusicPlaying(true)
         return
@@ -217,8 +217,6 @@ function App() {
         src={assetUrl('media/our-song.mp3')}
         loop
         preload="metadata"
-        onCanPlay={() => setMusicReady(true)}
-        onError={() => setMusicReady(false)}
       />
 
       <button
