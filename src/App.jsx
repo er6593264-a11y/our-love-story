@@ -38,7 +38,7 @@ const memoryNotes = [
   '每一张照片都在提醒我们：故事还在慢慢发生。',
 ]
 
-const albumPhotos = Array.from({ length: 46 }, (_, index) => {
+const albumPhotos = Array.from({ length: 50 }, (_, index) => {
   const featuredStory = featuredAlbumStories[index]
   const number = index + 1
 

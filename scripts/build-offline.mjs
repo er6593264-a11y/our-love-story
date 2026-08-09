@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const projectRoot = process.cwd()
@@ -40,7 +40,7 @@ let javascript = await readFile(toDistPath(scriptMatch[1]), 'utf8')
 const offlineAssets = {}
 
 const imagePaths = [
-  ...Array.from({ length: 46 }, (_, index) =>
+  ...Array.from({ length: 50 }, (_, index) =>
     `photos-web/album-${index + 1}.jpg`,
   ),
   'photos-web/frame-1.jpg',
@@ -84,6 +84,19 @@ javascript = replaceBundledUrl(
 )
 
 offlineAssets['media/our-video.mp4'] = 'data:video/mp4;base64,'
+
+const mediaFiles = await readdir(path.join(distDir, 'media'))
+const videoFiles = mediaFiles
+  .filter((fileName) => /^video-\d+\.mp4$/.test(fileName))
+  .sort((first, second) =>
+    Number(first.match(/\d+/)[0]) - Number(second.match(/\d+/)[0]))
+
+for (const videoFile of videoFiles) {
+  const video = await readFile(path.join(distDir, 'media', videoFile))
+  offlineAssets[`media/${videoFile}`] =
+    `data:video/mp4;base64,${video.toString('base64')}`
+}
+
 javascript = `globalThis.__LOVE_ASSETS__=${JSON.stringify(offlineAssets)};\n${javascript}`
 
 html = html
