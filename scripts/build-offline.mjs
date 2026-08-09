@@ -37,9 +37,10 @@ const replaceBundledUrl = (source, assetPath, replacement) => {
 
 const css = await readFile(toDistPath(stylesheetMatch[1]), 'utf8')
 let javascript = await readFile(toDistPath(scriptMatch[1]), 'utf8')
+const offlineAssets = {}
 
 const imagePaths = [
-  ...Array.from({ length: 9 }, (_, index) =>
+  ...Array.from({ length: 46 }, (_, index) =>
     `photos-web/album-${index + 1}.jpg`,
   ),
   'photos-web/frame-1.jpg',
@@ -51,6 +52,7 @@ for (const imagePath of imagePaths) {
   const image = await readFile(path.join(distDir, imagePath))
   const mimeType = imagePath.endsWith('.png') ? 'image/png' : 'image/jpeg'
   const dataUrl = `data:${mimeType};base64,${image.toString('base64')}`
+  offlineAssets[imagePath] = dataUrl
   javascript = replaceBundledUrl(javascript, imagePath, dataUrl)
 }
 
@@ -60,12 +62,14 @@ for (const imagePath of imagePaths) {
 try {
   const song = await readFile(path.join(distDir, 'media/our-song.mp3'))
   const songDataUrl = `data:audio/mpeg;base64,${song.toString('base64')}`
+  offlineAssets['media/our-song.mp3'] = songDataUrl
   javascript = replaceBundledUrl(
     javascript,
     'media/our-song.mp3',
     songDataUrl,
   )
 } catch {
+  offlineAssets['media/our-song.mp3'] = 'data:audio/mpeg;base64,'
   javascript = replaceBundledUrl(
     javascript,
     'media/our-song.mp3',
@@ -78,6 +82,9 @@ javascript = replaceBundledUrl(
   'media/our-video.mp4',
   'data:video/mp4;base64,',
 )
+
+offlineAssets['media/our-video.mp4'] = 'data:video/mp4;base64,'
+javascript = `globalThis.__LOVE_ASSETS__=${JSON.stringify(offlineAssets)};\n${javascript}`
 
 html = html
   .replace(stylesheetMatch[0], () => `<style>${css}</style>`)

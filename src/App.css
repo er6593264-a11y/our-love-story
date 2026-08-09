@@ -2190,6 +2190,47 @@ h1 span {
 
 .cinema-screen video { display: none; width: 100%; height: 100%; object-fit: contain; background: #000; }
 .cinema-screen video.is-ready { display: block; }
+.video-missing {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 30px;
+  color: #d8d0c3;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(202, 151, 112, .16), transparent 34%),
+    linear-gradient(135deg, #0b100e, #17201c);
+}
+.video-missing::before,
+.video-missing::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  width: 9px;
+  opacity: .35;
+  background: repeating-linear-gradient(to bottom, #e7d9c4 0 8px, transparent 8px 19px);
+}
+.video-missing::before { left: 18px; }
+.video-missing::after { right: 18px; }
+.video-reel {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  aspect-ratio: 1;
+  margin-bottom: 8px;
+  color: #17201c;
+  background: #d7ab8e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 10px rgba(215, 171, 142, .08);
+}
+.video-missing p { margin: 0; color: #a7836f; font-size: .67rem; font-weight: 700; letter-spacing: .28em; }
+.video-missing strong { font-family: "Songti SC", Georgia, serif; font-size: clamp(1.35rem, 3vw, 2.7rem); font-weight: 400; }
+.video-missing small { color: #718078; font-size: .7rem; letter-spacing: .08em; }
 .cinema-fallback { position: absolute; inset: 0; overflow: hidden; }
 .cinema-fallback > img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.72) saturate(.8); animation: cinematic-photo 2.6s ease both; }
 
@@ -2204,6 +2245,35 @@ h1 span {
 .cinema-caption strong { font-family: "Songti SC", Georgia, serif; font-size: clamp(1.7rem, 4vw, 4.2rem); font-weight: 400; }
 .trailer-button { position: absolute; right: 4%; bottom: 7%; padding: 12px 18px; color: #f7eee3; background: rgba(16,22,19,.62); border: 1px solid rgba(255,255,255,.45); border-radius: 999px; backdrop-filter: blur(10px); cursor: pointer; }
 .cinema-meta { display: flex; justify-content: space-between; padding: 19px 2px; color: #7f9185; font-size: .68rem; letter-spacing: .13em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,.12); }
+.video-playlist-controls {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto 48px;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 2px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.video-playlist-controls > button {
+  width: 46px;
+  height: 46px;
+  color: #ece2d4;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 180ms ease;
+}
+.video-playlist-controls > button:hover { color: #17231f; background: #d5ab8f; border-color: #d5ab8f; }
+.video-now-playing { display: grid; grid-template-columns: auto minmax(0, auto); justify-content: start; align-items: baseline; gap: 6px 18px; text-align: left; }
+.video-now-playing span { grid-row: 1 / 3; color: #b9856d; font: .7rem ui-monospace, monospace; letter-spacing: .13em; }
+.video-now-playing strong { color: #e9e0d2; font-family: "Songti SC", Georgia, serif; font-size: 1.18rem; font-weight: 400; }
+.video-now-playing small { color: #708077; font-size: .68rem; letter-spacing: .1em; }
+.autoplay-switch { display: flex; align-items: center; gap: 9px; color: #8d9b92; font-size: .72rem; cursor: pointer; white-space: nowrap; }
+.autoplay-switch input { position: absolute; opacity: 0; pointer-events: none; }
+.autoplay-switch > span { position: relative; width: 38px; height: 21px; background: #314039; border-radius: 99px; transition: 180ms ease; }
+.autoplay-switch > span::after { content: ''; position: absolute; top: 3px; left: 3px; width: 15px; height: 15px; background: #849289; border-radius: 50%; transition: 180ms ease; }
+.autoplay-switch input:checked + span { background: #9f6255; }
+.autoplay-switch input:checked + span::after { left: 20px; background: #f7eee4; }
 
 .reaction-zone {
   display: flex;
@@ -2258,6 +2328,11 @@ h1 span {
   .cinema-caption { left: 7%; bottom: 19%; }
   .trailer-button { left: 7%; right: auto; bottom: 6%; }
   .cinema-meta { gap: 10px; flex-wrap: wrap; line-height: 1.5; }
+  .video-playlist-controls { grid-template-columns: 42px 1fr 42px; gap: 10px; }
+  .video-playlist-controls > button { width: 40px; height: 40px; }
+  .autoplay-switch { grid-column: 1 / -1; grid-row: 2; justify-self: center; margin-top: 5px; }
+  .video-now-playing { gap: 4px 10px; }
+  .video-now-playing strong { font-size: .96rem; }
   .reaction-zone { margin-top: 55px; padding: 22px; gap: 18px; }
   .reaction-zone strong { font-size: 1.02rem; }
 }

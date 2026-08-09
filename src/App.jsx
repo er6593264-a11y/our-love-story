@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
+import { videoPlaylist } from './videoPlaylist'
 
 const base = import.meta.env.BASE_URL
+const assetUrl = (assetPath) =>
+  globalThis.__LOVE_ASSETS__?.[assetPath] ?? `${base}${assetPath}`
 const startDate = new Date('2021-11-24T00:00:00')
 const daysTogether = Math.floor(
   (Date.now() - startDate.getTime()) / (1000 * 60 * 60 * 24),
 )
 
-const albumPhotos = [
+const featuredAlbumStories = [
   ['2021 · 11 · 24', '故事开始的地方', '从这一天开始，平凡的日子有了特别的意义。'],
   ['2022 · OUR MEMORY', '第一次一起旅行', '因为身边是你，所以沿途的一切都变得值得纪念。'],
   ['2023 · EVERYDAY', '平凡的小日子', '没有特别安排的日子，也因为有你而变得温柔。'],
@@ -17,12 +20,35 @@ const albumPhotos = [
   ['OUR MEMORY · 07', '值得反复想起', '那些笑得很开心的时刻，后来都成了闪闪发亮的回忆。'],
   ['OUR MEMORY · 08', '日常里的浪漫', '真正喜欢的生活，是每一个普通日子里都有彼此。'],
   ['OUR MEMORY · 09', '故事未完待续', '相册会继续翻页，我们也会一起创造更多故事。'],
-].map(([date, title, note], index) => ({
-  src: `${base}photos-web/album-${index + 1}.jpg`,
-  date,
-  title,
-  note,
-}))
+]
+
+const memoryTitles = [
+  '生活里闪光的碎片',
+  '和你一起看过的风景',
+  '笑得很开心的那天',
+  '被镜头留住的温柔',
+  '只属于我们的日常',
+  '下一页还是我们',
+]
+
+const memoryNotes = [
+  '照片会褪色，但那一天和你在一起的心情不会。',
+  '以后回头看，才发现幸福一直藏在这些普通瞬间里。',
+  '按下快门的时候，也把当时的喜欢一起保存了下来。',
+  '每一张照片都在提醒我们：故事还在慢慢发生。',
+]
+
+const albumPhotos = Array.from({ length: 46 }, (_, index) => {
+  const featuredStory = featuredAlbumStories[index]
+  const number = index + 1
+
+  return {
+    src: assetUrl(`photos-web/album-${number}.jpg`),
+    date: featuredStory?.[0] ?? `OUR MEMORY · ${String(number).padStart(2, '0')}`,
+    title: featuredStory?.[1] ?? memoryTitles[(number - 10) % memoryTitles.length],
+    note: featuredStory?.[2] ?? memoryNotes[(number - 10) % memoryNotes.length],
+  }
+})
 
 function App() {
   const [showLetter, setShowLetter] = useState(false)
@@ -30,14 +56,17 @@ function App() {
   const [favorite, setFavorite] = useState(false)
   const [reactionCount, setReactionCount] = useState(0)
   const [heartBurst, setHeartBurst] = useState(0)
-  const [previewPhoto, setPreviewPhoto] = useState(0)
-  const [previewPlaying, setPreviewPlaying] = useState(false)
   const [videoAvailable, setVideoAvailable] = useState(false)
+  const [currentVideo, setCurrentVideo] = useState(0)
+  const [autoAdvance, setAutoAdvance] = useState(true)
   const [musicReady, setMusicReady] = useState(false)
   const [musicPlaying, setMusicPlaying] = useState(false)
   const audioRef = useRef(null)
+  const videoRef = useRef(null)
+  const thumbnailStripRef = useRef(null)
   const audioContextRef = useRef(null)
   const melodyTimerRef = useRef(null)
+  const playOnLoadRef = useRef(false)
 
   const previousPhoto = () => setCurrentPhoto((value) =>
     value === 0 ? albumPhotos.length - 1 : value - 1)
@@ -45,12 +74,10 @@ function App() {
     value === albumPhotos.length - 1 ? 0 : value + 1)
 
   useEffect(() => {
-    if (!previewPlaying || videoAvailable) return undefined
-    const timer = window.setInterval(() => {
-      setPreviewPhoto((value) => (value + 1) % albumPhotos.length)
-    }, 2600)
-    return () => window.clearInterval(timer)
-  }, [previewPlaying, videoAvailable])
+    thumbnailStripRef.current
+      ?.querySelector('.is-current')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }, [currentPhoto])
 
   useEffect(() => () => {
     window.clearInterval(melodyTimerRef.current)
@@ -121,13 +148,54 @@ function App() {
     setHeartBurst((value) => value + 1)
   }
 
+  const handleVideoPlay = () => {
+    if (!musicPlaying) return
+    audioRef.current?.pause()
+    stopBuiltInMusic()
+    setMusicPlaying(false)
+  }
+
+  const switchVideo = (nextIndex, keepPlaying = false) => {
+    playOnLoadRef.current = keepPlaying || !videoRef.current?.paused
+    setVideoAvailable(false)
+    setCurrentVideo(nextIndex)
+  }
+
+  const previousVideo = () => {
+    if (!videoPlaylist.length) return
+    const nextIndex = currentVideo === 0
+      ? videoPlaylist.length - 1
+      : currentVideo - 1
+    switchVideo(nextIndex)
+  }
+
+  const nextVideo = (keepPlaying = false) => {
+    if (!videoPlaylist.length) return
+    const nextIndex = currentVideo === videoPlaylist.length - 1
+      ? 0
+      : currentVideo + 1
+    switchVideo(nextIndex, keepPlaying)
+  }
+
+  const handleVideoReady = () => {
+    setVideoAvailable(true)
+    if (!playOnLoadRef.current) return
+    playOnLoadRef.current = false
+    videoRef.current?.play().catch(() => {})
+  }
+
+  const handleVideoEnded = () => {
+    if (autoAdvance && videoPlaylist.length > 1) nextVideo(true)
+  }
+
   const activePhoto = albumPhotos[currentPhoto]
+  const activeVideo = videoPlaylist[currentVideo]
 
   return (
     <main className="app">
       <audio
         ref={audioRef}
-        src={`${base}media/our-song.mp3`}
+        src={assetUrl('media/our-song.mp3')}
         loop
         preload="metadata"
         onCanPlay={() => setMusicReady(true)}
@@ -147,14 +215,14 @@ function App() {
       <section className="hero">
         <div className="romantic-decor" aria-hidden="true"><img
           className="couple-dog-art"
-          src={`${base}photos/couple-border-collie-cutout.png`}
+          src={assetUrl('photos/couple-border-collie-cutout.png')}
           alt=""
         /><figure className="swing-frame frame-one">
-            <img src={`${base}photos-web/frame-1.jpg`} alt="" decoding="async" />
+            <img src={assetUrl('photos-web/frame-1.jpg')} alt="" decoding="async" />
             <figcaption>OUR MEMORY</figcaption>
           </figure>
           <figure className="swing-frame frame-two">
-            <img src={`${base}photos-web/frame-2.jpg`} alt="" decoding="async" />
+            <img src={assetUrl('photos-web/frame-2.jpg')} alt="" decoding="async" />
             <figcaption>11 · 24 · 2021</figcaption>
           </figure>
           <div className="string-lights"><span /><span /><span /><span /><span /><span /><span /></div>
@@ -188,7 +256,7 @@ function App() {
             <p className="section-label">OUR LITTLE ARCHIVE</p>
             <h2>日子很慢，<br />喜欢你这件事很长。</h2>
           </div>
-          <p>这里没有规整的时间线，只有一张张舍不得删掉的照片，和我们共同生活过的证据。</p>
+          <p>That's everything begin</p>
         </header>
 
         <div className="memory-editorial" key={currentPhoto} aria-live="polite">
@@ -219,7 +287,7 @@ function App() {
 
         <div className="memory-footer-controls">
           <button type="button" onClick={previousPhoto} aria-label="上一张照片">←</button>
-          <div className="memory-thumbnails">
+          <div className="memory-thumbnails" ref={thumbnailStripRef}>
             {albumPhotos.map((photo, index) => (
               <button
                 type="button"
@@ -247,33 +315,51 @@ function App() {
 
         <div className="cinema-stage">
           <div className="cinema-screen">
-            <video
-              className={videoAvailable ? 'is-ready' : ''}
-              controls
-              playsInline
-              preload="metadata"
-              onCanPlay={() => { setVideoAvailable(true); setPreviewPlaying(false) }}
-              onError={() => setVideoAvailable(false)}
-            >
-              <source src={`${base}media/our-video.mp4`} type="video/mp4" />
-            </video>
-            {!videoAvailable && (
-              <div className="cinema-fallback">
-                <img key={previewPhoto} src={albumPhotos[previewPhoto].src} alt="照片组成的回忆预告" />
-                <div className="film-grain" aria-hidden="true" />
-                <div className="cinema-caption">
-                  <span>{String(previewPhoto + 1).padStart(2, '0')} / {String(albumPhotos.length).padStart(2, '0')}</span>
-                  <strong>{albumPhotos[previewPhoto].title}</strong>
-                </div>
-                <button type="button" className="trailer-button" onClick={() => setPreviewPlaying(!previewPlaying)}>
-                  {previewPlaying ? 'Ⅱ 暂停预告' : '▶ 播放回忆预告'}
-                </button>
+            {activeVideo && (
+              <video
+                ref={videoRef}
+                key={activeVideo.file}
+                className={videoAvailable ? 'is-ready' : ''}
+                controls
+                playsInline
+                preload="metadata"
+                onLoadedMetadata={handleVideoReady}
+                onError={() => setVideoAvailable(false)}
+                onPlay={handleVideoPlay}
+                onEnded={handleVideoEnded}
+              >
+                <source src={assetUrl(`media/${activeVideo.file}`)} type="video/mp4" />
+              </video>
+            )}
+            {(!activeVideo || !videoAvailable) && (
+              <div className="video-missing">
+                <span className="video-reel" aria-hidden="true">▶</span>
+                <p>OUR VIDEO</p>
+                <strong>{activeVideo ? '这段视频暂时无法读取' : '等待放入属于我们的视频'}</strong>
+                <small>{activeVideo ? activeVideo.file : '支持多段 MP4 视频连续播放'}</small>
               </div>
             )}
           </div>
-          <div className="cinema-meta">
-            <span>刘梓毅 × 黄心莹</span><span>Est. 2021</span><span>To be continued</span>
-          </div>
+          {activeVideo ? (
+            <div className="video-playlist-controls">
+              <button type="button" onClick={previousVideo} aria-label="上一段视频">←</button>
+              <div className="video-now-playing">
+                <span>{String(currentVideo + 1).padStart(2, '0')} / {String(videoPlaylist.length).padStart(2, '0')}</span>
+                <strong>{activeVideo.title}</strong>
+                {activeVideo.date && <small>{activeVideo.date}</small>}
+              </div>
+              <label className="autoplay-switch">
+                <input type="checkbox" checked={autoAdvance} onChange={(event) => setAutoAdvance(event.target.checked)} />
+                <span aria-hidden="true" />
+                自动连播
+              </label>
+              <button type="button" onClick={() => nextVideo()} aria-label="下一段视频">→</button>
+            </div>
+          ) : (
+            <div className="cinema-meta">
+              <span>刘梓毅 × 黄心莹</span><span>等待第一段影像</span><span>To be continued</span>
+            </div>
+          )}
         </div>
 
         <div className="reaction-zone">
