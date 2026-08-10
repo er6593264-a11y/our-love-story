@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8d9df" />
+    <meta name="description" content="刘梓毅写给黄心莹的一份认真又有点可爱的道歉申请。" />
+    <title>给黄心莹的道歉申请书</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #442e34;
+        --muted: #80676d;
+        --paper: #fffaf5;
+        --rose: #c85e76;
+        --rose-dark: #9e4058;
+        --blush: #f7cfd7;
+        --peach: #f5d7bd;
+        --cream: #fff1d9;
+        --green: #687e6a;
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 15% 8%, rgba(255,255,255,.9) 0 3%, transparent 18%),
+          radial-gradient(circle at 87% 18%, rgba(255,236,205,.8) 0 2%, transparent 18%),
+          linear-gradient(145deg, #f6d7df 0%, #f9e5dc 47%, #f6d7cb 100%);
+        overflow-x: hidden;
+      }
+
+      button { font: inherit; }
+
+      .background-doodles,
+      .confetti-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .background-doodles { z-index: 0; }
+      .confetti-layer { z-index: 20; }
+
+      .doodle {
+        position: absolute;
+        color: rgba(137, 65, 82, .28);
+        font-family: Georgia, serif;
+        animation: breathe 4s ease-in-out infinite;
+      }
+
+      .doodle:nth-child(1) { top: 7%; left: 5%; font-size: 3rem; transform: rotate(-15deg); }
+      .doodle:nth-child(2) { top: 16%; right: 5%; font-size: 2rem; animation-delay: -1.1s; }
+      .doodle:nth-child(3) { top: 54%; left: 3%; font-size: 2.4rem; animation-delay: -2.2s; }
+      .doodle:nth-child(4) { bottom: 10%; right: 4%; font-size: 3.4rem; animation-delay: -.7s; }
+      .doodle:nth-child(5) { bottom: 28%; left: 8%; font-size: 1.6rem; animation-delay: -3s; }
+
+      main {
+        position: relative;
+        z-index: 1;
+        width: min(100% - 32px, 920px);
+        margin: 0 auto;
+        padding: max(30px, env(safe-area-inset-top)) 0 70px;
+      }
+
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+        color: rgba(68, 46, 52, .65);
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+      }
+
+      .application {
+        position: relative;
+        padding: clamp(28px, 6vw, 68px);
+        border: 1px solid rgba(91, 55, 62, .12);
+        border-radius: 30px 8px 30px 8px;
+        background:
+          linear-gradient(rgba(116, 83, 73, .038) 1px, transparent 1px) 0 0 / 100% 32px,
+          var(--paper);
+        box-shadow: 0 30px 90px rgba(104, 53, 65, .18);
+      }
+
+      .application::before {
+        content: "";
+        position: absolute;
+        top: -13px;
+        left: 50%;
+        width: 142px;
+        height: 30px;
+        background: rgba(244, 219, 178, .72);
+        box-shadow: 0 2px 3px rgba(98, 68, 50, .06);
+        transform: translateX(-50%) rotate(-2deg);
+      }
+
+      .stamp {
+        position: absolute;
+        top: 30px;
+        right: clamp(22px, 5vw, 54px);
+        display: grid;
+        width: 96px;
+        height: 96px;
+        place-items: center;
+        border: 3px double rgba(177, 65, 85, .52);
+        border-radius: 50%;
+        color: rgba(177, 65, 85, .68);
+        font: 700 .76rem/1.45 "Songti SC", serif;
+        text-align: center;
+        transform: rotate(10deg);
+      }
+
+      .eyebrow {
+        margin: 0 0 15px;
+        color: var(--rose-dark);
+        font-size: .73rem;
+        font-weight: 800;
+        letter-spacing: .18em;
+      }
+
+      h1 {
+        max-width: 620px;
+        margin: 0;
+        font-family: "Songti SC", "STSong", Georgia, serif;
+        font-size: clamp(2.4rem, 7vw, 5.25rem);
+        font-weight: 500;
+        letter-spacing: -.04em;
+        line-height: 1.06;
+      }
+
+      h1 span {
+        display: block;
+        margin-top: 10px;
+        color: var(--rose);
+        font-size: .53em;
+        font-style: italic;
+        letter-spacing: 0;
+      }
+
+      .intro {
+        max-width: 610px;
+        margin: 28px 0 0;
+        color: var(--muted);
+        font-family: "Songti SC", "STSong", serif;
+        font-size: 1.02rem;
+        line-height: 1.95;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin: 40px 0 28px;
+        color: #a8757e;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        height: 1px;
+        background: rgba(109, 77, 82, .15);
+        flex: 1;
+      }
+
+      .promise-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .promise {
+        min-height: 146px;
+        padding: 22px;
+        border: 1px solid rgba(90, 61, 67, .1);
+        border-radius: 18px 6px 18px 6px;
+        background: rgba(255,255,255,.58);
+      }
+
+      .promise:nth-child(2) { transform: translateY(12px) rotate(.7deg); }
+      .promise:nth-child(3) { transform: rotate(-.6deg); }
+
+      .promise b {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--rose-dark);
+        font-family: Georgia, serif;
+        font-size: 1.5rem;
+        font-style: italic;
+      }
+
+      .promise p { margin: 0; color: #6f5d62; font-size: .9rem; line-height: 1.75; }
+
+      .envelope-area { margin: 48px 0 34px; text-align: center; }
+
+      .open-letter {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 20px;
+        border: 1px solid rgba(158, 64, 88, .25);
+        border-radius: 999px;
+        color: var(--rose-dark);
+        background: #fff4f1;
+        box-shadow: 0 8px 20px rgba(130, 68, 80, .08);
+        cursor: pointer;
+        transition: transform .2s ease, box-shadow .2s ease;
+      }
+
+      .open-letter:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(130, 68, 80, .13); }
+
+      .letter {
+        display: grid;
+        grid-template-rows: 0fr;
+        margin: 0 auto;
+        max-width: 650px;
+        opacity: 0;
+        transition: grid-template-rows .55s ease, opacity .35s ease, margin .45s ease;
+      }
+
+      .letter.is-open { grid-template-rows: 1fr; margin-top: 24px; opacity: 1; }
+      .letter-inner { overflow: hidden; }
+
+      .letter-paper {
+        position: relative;
+        padding: 28px clamp(22px, 5vw, 44px);
+        border: 1px solid rgba(105, 69, 75, .13);
+        border-radius: 4px;
+        background: #fffefa;
+        box-shadow: 0 18px 40px rgba(84, 52, 57, .1);
+        text-align: left;
+        transform: rotate(-.5deg);
+      }
+
+      .letter-paper p {
+        margin: 0 0 15px;
+        color: #66545a;
+        font-family: "Songti SC", "STSong", serif;
+        line-height: 2;
+      }
+
+      .letter-paper p:last-child { margin: 20px 0 0; color: var(--rose-dark); text-align: right; }
+
+      .sincerity {
+        margin-top: 44px;
+        padding: clamp(22px, 4vw, 34px);
+        border-radius: 22px;
+        background: #f5e8df;
+      }
+
+      .sincerity-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 14px;
+        font-weight: 700;
+      }
+
+      .sincerity-head span:last-child { color: var(--rose-dark); }
+
+      .meter {
+        height: 13px;
+        padding: 3px;
+        border-radius: 999px;
+        background: rgba(87, 57, 63, .1);
+        overflow: hidden;
+      }
+
+      .meter-fill {
+        width: 32%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #d98999, #c6516d);
+        transition: width .7s cubic-bezier(.22, 1, .36, 1);
+      }
+
+      .meter-note { margin: 12px 0 0; color: #7a666b; font-size: .82rem; line-height: 1.6; }
+
+      .choices {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr 1fr;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .choice {
+        min-height: 52px;
+        padding: 12px 16px;
+        border: 1px solid rgba(113, 70, 80, .18);
+        border-radius: 14px;
+        color: #654d54;
+        background: rgba(255,255,255,.62);
+        cursor: pointer;
+        transition: transform .18s ease, background .18s ease, color .18s ease;
+      }
+
+      .choice:hover { transform: translateY(-2px); }
+      .choice.primary { border-color: var(--rose); color: white; background: var(--rose); }
+      .choice.primary:hover { background: var(--rose-dark); }
+
+      .reply {
+        min-height: 54px;
+        margin: 18px 0 0;
+        padding: 16px 18px;
+        border-left: 3px solid var(--rose);
+        border-radius: 0 12px 12px 0;
+        color: #6a545b;
+        background: rgba(255,255,255,.58);
+        line-height: 1.7;
+      }
+
+      .compensation-title {
+        margin: 48px 0 8px;
+        font-family: "Songti SC", serif;
+        font-size: clamp(1.7rem, 5vw, 2.6rem);
+        font-weight: 500;
+      }
+
+      .compensation-subtitle { margin: 0 0 20px; color: var(--muted); line-height: 1.7; }
+
+      .coupon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+      .coupon {
+        position: relative;
+        padding: 20px 48px 20px 20px;
+        border: 1px dashed rgba(131, 77, 89, .3);
+        border-radius: 12px;
+        color: #665158;
+        background: #fff9f3;
+        cursor: pointer;
+        text-align: left;
+        transition: transform .18s ease, border-color .18s ease;
+      }
+
+      .coupon:hover { transform: rotate(-.5deg) translateY(-2px); border-color: var(--rose); }
+      .coupon::after { content: "○"; position: absolute; top: 50%; right: 20px; color: #b7818c; font-size: 1.4rem; transform: translateY(-50%); }
+      .coupon.is-picked::after { content: "✓"; color: var(--green); font-weight: 800; }
+      .coupon.is-picked { border-color: var(--green); background: #f2f5ed; }
+      .coupon b { display: block; margin-bottom: 5px; color: var(--ink); }
+      .coupon small { color: var(--muted); line-height: 1.5; }
+
+      footer {
+        padding: 26px 8px 0;
+        color: rgba(68, 46, 52, .58);
+        font-size: .78rem;
+        line-height: 1.7;
+        text-align: center;
+      }
+
+      .confetti {
+        position: absolute;
+        top: -30px;
+        width: 10px;
+        height: 16px;
+        border-radius: 2px;
+        animation: fall var(--duration) linear forwards;
+        transform: rotate(var(--rotation));
+      }
+
+      @keyframes breathe {
+        50% { opacity: .5; transform: translateY(-7px) rotate(4deg); }
+      }
+
+      @keyframes fall {
+        to { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); opacity: .85; }
+      }
+
+      @media (max-width: 700px) {
+        main { width: min(100% - 22px, 920px); padding-bottom: 36px; }
+        .topline { padding: 0 4px; font-size: .61rem; }
+        .application { padding: 48px 20px 30px; border-radius: 22px 7px 22px 7px; }
+        .stamp { top: 17px; right: 18px; width: 72px; height: 72px; font-size: .61rem; }
+        .eyebrow { padding-right: 78px; }
+        h1 { font-size: clamp(2.35rem, 13vw, 4rem); }
+        .intro { font-size: .96rem; }
+        .promise-grid { grid-template-columns: 1fr; }
+        .promise { min-height: auto; }
+        .promise:nth-child(2), .promise:nth-child(3) { transform: none; }
+        .choices { grid-template-columns: 1fr; }
+        .coupon-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-doodles" aria-hidden="true">
+      <span class="doodle">♡</span><span class="doodle">✦</span><span class="doodle">♡</span><span class="doodle">☆</span><span class="doodle">♡</span>
+    </div>
+    <div class="confetti-layer" id="confetti" aria-hidden="true"></div>
+
+    <main>
+      <div class="topline">
+        <span>Apology application · No. 1124</span>
+        <span>仅限黄心莹女士查阅</span>
+      </div>
+
+      <article class="application">
+        <div class="stamp" aria-hidden="true">诚恳申请<br />请予审阅</div>
+        <p class="eyebrow">申请人 · 刘梓毅</p>
+        <h1>黄心莹，对不起<span>这不是狡辩，是一份认真道歉申请。</span></h1>
+        <p class="intro">
+          让你不开心这件事，本身就值得我认真对待。我不想用一句轻飘飘的“别生气了”跳过你的感受，
+          所以写下这份申请：先承认、再听你说，最后用行动把该改的地方改好。
+        </p>
+
+        <div class="divider" aria-hidden="true">♡</div>
+
+        <section class="promise-grid" aria-label="道歉三步">
+          <article class="promise">
+            <b>01.</b>
+            <p>我承认：让你难过或失望了，就是我应该认真面对的问题。</p>
+          </article>
+          <article class="promise">
+            <b>02.</b>
+            <p>我会听：先把你的感受听完整，不抢着解释，也不敷衍过去。</p>
+          </article>
+          <article class="promise">
+            <b>03.</b>
+            <p>我会改：真正的道歉不只在网页里，而在之后每一次行动里。</p>
+          </article>
+        </section>
+
+        <section class="envelope-area">
+          <button class="open-letter" id="openLetter" type="button" aria-expanded="false" aria-controls="letter">
+            <span aria-hidden="true">💌</span><span>点开看看我真正想说的话</span>
+          </button>
+          <div class="letter" id="letter">
+            <div class="letter-inner">
+              <div class="letter-paper">
+                <p>我知道，道歉不是为了赶紧结束你的情绪，也不是为了让我自己好受一点。</p>
+                <p>如果你愿意，我想认真听听你为什么不开心；如果你现在还不想说，我也会给你时间。你不用因为这个页面马上原谅我。</p>
+                <p>我只是想让你知道：你对我很重要，所以你的感受也很重要。对不起。</p>
+                <p>—— 刘梓毅</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="sincerity" aria-labelledby="sincerityTitle">
+          <div class="sincerity-head">
+            <span id="sincerityTitle">当前诚意加载进度</span>
+            <span id="percent">32%</span>
+          </div>
+          <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="32" aria-label="诚意进度">
+            <div class="meter-fill" id="meterFill"></div>
+          </div>
+          <p class="meter-note">网页进度可以点满，真正的诚意要靠申请人之后慢慢证明。</p>
+
+          <div class="choices">
+            <button class="choice primary" id="forgive" type="button">愿意给一次机会 ♡</button>
+            <button class="choice" id="more" type="button">还要再哄一会儿</button>
+            <button class="choice" id="notYet" type="button">我现在还没消气</button>
+          </div>
+          <p class="reply" id="reply" aria-live="polite">审阅人可以自由选择，申请人不得催促。</p>
+        </section>
+
+        <h2 class="compensation-title">可选的行动补偿</h2>
+        <p class="compensation-subtitle">可以选一个，也可以全部选中。选中不代表必须立刻原谅。</p>
+        <section class="coupon-grid" aria-label="行动补偿选项">
+          <button class="coupon" type="button"><b>认真倾听券</b><small>你慢慢说，我不打断，也不急着反驳。</small></button>
+          <button class="coupon" type="button"><b>喜欢的饮料券</b><small>口味、时间和地点全部由黄心莹女士决定。</small></button>
+          <button class="coupon" type="button"><b>轻松散步券</b><small>想聊天就聊天，不想说话也可以安静陪着。</small></button>
+          <button class="coupon" type="button"><b>抱抱兑换券</b><small>仅在你愿意的时候生效，长期有效。</small></button>
+        </section>
+      </article>
+
+      <footer>
+        本页面最终解释权归黄心莹女士所有。<br />申请人刘梓毅承诺：不以制作网页代替真正的沟通和改变。
+      </footer>
+    </main>
+
+    <script>
+      const openLetterButton = document.querySelector('#openLetter')
+      const letter = document.querySelector('#letter')
+      const meterFill = document.querySelector('#meterFill')
+      const meter = document.querySelector('.meter')
+      const percent = document.querySelector('#percent')
+      const reply = document.querySelector('#reply')
+      const moreButton = document.querySelector('#more')
+      const confettiLayer = document.querySelector('#confetti')
+      let progress = 32
+      let moreCount = 0
+
+      const encouragements = [
+        '收到，申请人追加：一杯你喜欢的饮料，并认真反省。',
+        '继续哄：不讲大道理，先把你的感受听完。',
+        '再追加一项：今天不敷衍，之后也不能敷衍。',
+        '诚意快满了，但原谅权依然百分之百属于你。'
+      ]
+
+      function setProgress(value) {
+        progress = Math.min(value, 100)
+        meterFill.style.width = progress + '%'
+        percent.textContent = progress + '%'
+        meter.setAttribute('aria-valuenow', progress)
+      }
+
+      function celebrate() {
+        const colors = ['#c85e76', '#f2b9c5', '#f0c98c', '#8ba58d', '#ffffff']
+        for (let index = 0; index < 70; index += 1) {
+          const piece = document.createElement('span')
+          piece.className = 'confetti'
+          piece.style.left = Math.random() * 100 + '%'
+          piece.style.background = colors[index % colors.length]
+          piece.style.setProperty('--duration', (2.7 + Math.random() * 2.5) + 's')
+          piece.style.setProperty('--drift', ((Math.random() - .5) * 220) + 'px')
+          piece.style.setProperty('--rotation', (Math.random() * 90) + 'deg')
+          piece.style.animationDelay = (Math.random() * .5) + 's'
+          confettiLayer.appendChild(piece)
+          window.setTimeout(() => piece.remove(), 5600)
+        }
+      }
+
+      openLetterButton.addEventListener('click', () => {
+        const isOpen = letter.classList.toggle('is-open')
+        openLetterButton.setAttribute('aria-expanded', String(isOpen))
+        openLetterButton.querySelector('span:last-child').textContent = isOpen
+          ? '我看到了，先把信收好'
+          : '点开看看我真正想说的话'
+      })
+
+      document.querySelector('#forgive').addEventListener('click', () => {
+        setProgress(100)
+        reply.textContent = '谢谢你愿意给我机会。申请人不能只开心三秒，接下来要用行动认真做好。'
+        celebrate()
+      })
+
+      moreButton.addEventListener('click', () => {
+        moreCount += 1
+        setProgress(Math.min(92, progress + 15))
+        reply.textContent = encouragements[Math.min(moreCount - 1, encouragements.length - 1)]
+        moreButton.textContent = moreCount >= 3 ? '继续观察申请人' : '还要再哄一会儿'
+      })
+
+      document.querySelector('#notYet').addEventListener('click', () => {
+        reply.textContent = '没关系，你可以慢慢来。申请人会先认真反省，不催你，也不会因为你还在生气而不耐烦。'
+      })
+
+      document.querySelectorAll('.coupon').forEach((coupon) => {
+        coupon.addEventListener('click', () => {
+          const picked = coupon.classList.toggle('is-picked')
+          coupon.setAttribute('aria-pressed', String(picked))
+        })
+      })
+    </script>
+  </body>
+</html>
